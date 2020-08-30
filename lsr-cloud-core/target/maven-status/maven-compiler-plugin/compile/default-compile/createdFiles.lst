@@ -1,0 +1,5 @@
+cn/lsr/cloud/core/config/RestTmplateConfig.class
+cn/lsr/cloud/core/util/RestTemplateUtils.class
+cn/lsr/cloud/core/util/SpringUtil.class
+cn/lsr/cloud/core/a.class
+cn/lsr/cloud/core/util/EurekaServerUtil.class

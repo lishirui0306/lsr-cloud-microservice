@@ -1,0 +1,32 @@
+# 服务端口号
+server:
+  port: 7001
+# 对外暴露的服务名称
+spring:
+  application:
+    name: lsr-cloud-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: account
+          uri: lb://LSR-CLOUD-PROVIDER #eureka注册中心存在的服务名称
+          predicates:
+            - Path=/pro/** #路径配置
+          filters:
+            - StripPrefix=1     #忽略Path配置的个数，此处为1代表访问/api/account/**时，会将api忽略，真实的访问地址为lb://lsr-cloud-provider/account/**,如果为2，则为lb://lsr-cloud-provider/**
+        - id: consumer
+          uri: lb://LSR-CLOUD-CONSUMER #eureka注册中心存在的服务名称
+          predicates:
+            - Path=/sm/** #路径配置
+          filters:
+            - StripPrefix=1     #忽略Path配置的个数，此处为1代表访问/api/account/**时，会将api忽略，真实的访问地址为lb://lsr-cloud-provider/account/**,如果为2，则为lb://lsr-cloud-provider/**
+
+# 配置eureka
+eureka:
+  client:
+    registerWithEureka: true    #客户端注册进eureka服务列表内
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address: true     #访问路径可以显示IP地址

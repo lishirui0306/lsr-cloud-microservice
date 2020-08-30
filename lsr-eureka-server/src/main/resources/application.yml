@@ -1,0 +1,19 @@
+# 服务端口号
+server:
+  port: 8761
+# 对外暴露的服务名称
+spring:
+  application:
+    name: lsr-cloud-eureka
+
+# 配置eureka
+eureka:
+  client:
+    # 由于当前这个应用就是Eureka Server，故而设为false
+    registerWithEureka: false
+    # 不需要同步其他的Eureka Server节点的数据，故而设为false。
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:4321/eureka/
+  instance:
+    hostname: 127.0.0.1

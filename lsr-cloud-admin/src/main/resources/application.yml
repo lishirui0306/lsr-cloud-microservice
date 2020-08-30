@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: lsr-cloud-admin
+  security:
+    user:
+      name: admin
+      password: lishirui
+server:
+  port: 6001
+#释放端点给admin监控
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'

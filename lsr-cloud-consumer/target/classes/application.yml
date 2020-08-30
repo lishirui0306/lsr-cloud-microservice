@@ -1,0 +1,41 @@
+# 服务端口号
+server:
+  port: 9001
+# 对外暴露的服务名称
+spring:
+  application:
+    name: lsr-cloud-consumer
+  boot:
+    admin:
+      client:
+        url: http://127.0.0.1:6001
+        username: admin #spring admin server用户名
+        password: lishirui #spring admin server密码
+        instance:
+          metadata:
+            user.name: ${spring.security.user.name} #客户端元数据访问用户
+            user.password: ${spring.boot.admin.client.password} #客户端元数据访问密码
+  security:
+    user:
+      name: consumer #客户端用户名
+      password: lishirui # 客户端密码
+      roles: ACTUATOR_ADMIN #拥有角色，用于允许自身访问
+# 开放所有endpoint，实际生产根据自身需要开放，出于安全考虑不建议全部开放。
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+# 配置eureka
+eureka:
+  client:
+    registerWithEureka: true    #客户端注册进eureka服务列表内
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address: true     #访问路径可以显示IP地址
+lsr:
+  remote:
+    server:
+      name: lsr-cloud-provider

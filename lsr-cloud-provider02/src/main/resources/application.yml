@@ -1,0 +1,55 @@
+# 服务端口号
+server:
+  port: 8002
+# 对外暴露的服务名称
+spring:
+  application:
+    name: lsr-cloud-provider
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/lsr-cloud?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT
+    username: root
+    password: lishirui
+  boot:
+    admin:
+      client:
+        url: http://127.0.0.1:6001
+        username: admin #spring admin server用户名
+        password: lishirui #spring admin server密码
+        instance:
+          metadata:
+            user.name: ${spring.security.user.name} #客户端元数据访问用户
+            user.password: ${spring.boot.admin.client.password} #客户端元数据访问密码
+  security:
+    user:
+      name: provider02 #客户端用户名
+      password: lishirui # 客户端密码
+      roles: ACTUATOR_ADMIN #拥有角色，用于允许自身访问
+# 开放所有endpoint，实际生产根据自身需要开放，出于安全考虑不建议全部开放。
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#mybatis sql 打印
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: false
+
+# 配置pageHelper分页插件的内容
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+# 配置eureka
+eureka:
+  client:
+    registerWithEureka: true    #客户端注册进eureka服务列表内
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address: true     #访问路径可以显示IP地址
